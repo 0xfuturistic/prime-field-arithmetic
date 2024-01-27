@@ -36,4 +36,13 @@ library PrimeFieldArithmetic {
     function mul(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
         return mulmod(a, b, PRIME);
     }
+
+    /// @notice Calculates the modular multiplicative inverse of a number a modulo p using the formula  a^(p-2) mod p.
+    ///         This is based on Fermat's Little Theorem, which states that  a^(p-1) ≡ 1 mod p for any non-zero a in a field of size p.
+    /// @param a The number to calculate the inverse of
+    /// @return The modular multiplicative inverse of a in the prime field
+    function inv(uint256 a) internal pure mustBeInField(a) returns (uint256) {
+        require(a != 0, "division by zero");
+        return exp(a, PRIME - 2);
+    }
 }
