@@ -20,4 +20,12 @@ library PrimeFieldArithmetic {
     function add(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
         return addmod(a, b, PRIME);
     }
+
+    /// @notice Subtracts one number from another in the prime field
+    /// @param a The number to subtract from
+    /// @param b The number to subtract
+    /// @return The result of subtracting b from a in the prime field
+    function sub(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+        return addmod(a, PRIME - b, PRIME);
+    }
 }
