@@ -8,4 +8,8 @@ library PrimeFieldArithmetic {
     /// @notice The prime number from the secp256k1 curve is used.
     uint256 constant PRIME = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F;
 
+    modifier mustBeInField(uint256 value) {
+        require(value < PRIME, "value must be in finite field");
+        _;
+    }
 }
