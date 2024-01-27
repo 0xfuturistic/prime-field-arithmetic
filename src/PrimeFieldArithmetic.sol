@@ -45,4 +45,12 @@ library PrimeFieldArithmetic {
         require(a != 0, "division by zero");
         return exp(a, PRIME - 2);
     }
+
+    /// @notice Divides one number by another in the prime field
+    /// @param a The number to divide
+    /// @param b The number to divide by
+    /// @return The result of dividing a by b in the prime field
+    function div(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+        return mul(a, inv(b));
+    }
 }
