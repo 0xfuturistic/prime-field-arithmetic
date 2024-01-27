@@ -28,4 +28,12 @@ library PrimeFieldArithmetic {
     function sub(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
         return addmod(a, PRIME - b, PRIME);
     }
+
+    /// @notice Multiplies two numbers in the prime field
+    /// @param a The first number to multiply
+    /// @param b The second number to multiply
+    /// @return The product of a and b in the prime field
+    function mul(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+        return mulmod(a, b, PRIME);
+    }
 }
