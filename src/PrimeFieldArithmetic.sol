@@ -53,4 +53,20 @@ library PrimeFieldArithmetic {
     function div(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
         return mul(a, inv(b));
     }
+
+    /// @notice Calculates the modular exponentiation of a number a raised to the power of b in the prime field using the square-and-multiply algorithm.
+    /// @param a The base number
+    /// @param b The exponent
+    /// @return The result of raising a to the power of b in the prime field
+    function exp(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+        uint256 result = 1;
+        a %= PRIME;
+        for (uint256 i = 1; i <= b; i *= 2) {
+            if (b & i != 0) {
+                result = mulmod(result, a, PRIME);
+            }
+            a = mulmod(a, a, PRIME);
+        }
+        return result;
+    }
 }
