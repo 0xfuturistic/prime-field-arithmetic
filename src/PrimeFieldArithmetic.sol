@@ -32,20 +32,23 @@ library PrimeFieldArithmetic {
         return mulmod(a, b, PRIME);
     }
 
-    /// @notice Calculates the modular exponentiation of a number a raised to the power of b in the prime field using the square-and-multiply algorithm.
-    /// @param a The base number
-    /// @param b The exponent
-    /// @return The result of raising a to the power of b in the prime field
-    function exp(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 result = 1;
-        a %= PRIME;
-        for (uint256 i = 1; i <= b; i *= 2) {
-            if (b & i != 0) {
-                result = mulmod(result, a, PRIME);
+    /// @notice Efficiently performs modular exponentiation in a prime field.
+    ///         Utilizes the square-and-multiply algorithm, optimized for Solidity.
+    /// @param base The base number
+    /// @param exponent The exponent
+    /// @return result The result of base^exponent mod PRIME.
+    function exp(uint256 base, uint256 exponent) internal pure returns (uint256 result) {
+        result = 1; // Initialize result as 1, as any number to the power of 0 is 1.
+        base %= PRIME; // Ensures base is within field limits.
+        // Iterate over each bit of the exponent, starting from the least significant bit.
+        while (exponent != 0) {
+            // If the current bit is set, multiply the result by the base, modulo PRIME.
+            if (exponent & 1 != 0) {
+                result = mulmod(result, base, PRIME);
             }
-            a = mulmod(a, a, PRIME);
+            base = mulmod(base, base, PRIME); // Square the base for the next bit, modulo PRIME.
+            exponent >>= 1; // Right shift exponent by 1 bit (equivalent to floor division by 2).
         }
-        return result;
     }
 
     /// @notice Calculates the modular multiplicative inverse of a number a modulo p using the formula  a^(p-2) mod p.
