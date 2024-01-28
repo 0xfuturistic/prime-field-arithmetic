@@ -52,8 +52,8 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function test_add_zero_A(uint256 b) public {
-        b %= PRIME;
         uint256 a = 0;
+        b %= PRIME;
         uint256 c = b;
         assertEq(a.add(b), c);
     }
@@ -82,20 +82,65 @@ contract PrimeFieldArithmeticTest is Test {
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                    Tests for subtraction                   */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
+    function test_sub_basic() public {
+        uint256 a = 3;
+        uint256 b = 2;
+        uint256 c = (a - b) % PRIME; // for consistency we use mod PRIME
+        assertEq(a.sub(b), c);
+    }
 
-    // Additional Tests for sub
-    function test_Sub_Underflow() public {
+    function testFuzz_sub(uint256 a, uint256 b) public {
+        a %= PRIME;
+        b %= PRIME;
+        uint256 c;
+        if (a >= b) {
+            c = (a - b) % PRIME;
+        } else {
+            c = PRIME - (b - a);
+        }
+        assertEq(a.sub(b), c);
+    }
+
+    function test_sub_wraps() public {
         uint256 a = 0;
         uint256 b = 1;
-        assertEq(a.sub(b), PRIME - 1);
+        uint256 c = PRIME - 1;
+        assertEq(a.sub(b), c);
     }
 
-    function test_Sub_ZeroResult(uint256 a) public {
-        assertEq(a.sub(a), 0);
+    function test_sub_zero() public {
+        uint256 a = 0;
+        uint256 b = 0;
+        uint256 c = 0;
+        assertEq(a.sub(b), c);
     }
 
-    function test_Sub_EdgeCases() public {
-        assertEq((PRIME - 1).sub(0), PRIME - 1);
+    function test_sub_zero_A(uint256 b) public {
+        uint256 a = 0;
+        b %= PRIME;
+        uint256 c = (PRIME - b) % PRIME;
+        assertEq(a.sub(b), c);
+    }
+
+    function test_sub_zero_B(uint256 a) public {
+        a %= PRIME;
+        uint256 b = 0;
+        uint256 c = a;
+        assertEq(a.sub(b), c);
+    }
+
+    function test_sub_edge_A() public {
+        uint256 a = PRIME - 1;
+        uint256 b = 0;
+        uint256 c = a;
+        assertEq(a.sub(b), c);
+    }
+
+    function test_sub_edge_B() public {
+        uint256 a = 0;
+        uint256 b = PRIME - 1;
+        uint256 c = PRIME - b;
+        assertEq(a.sub(b), c);
     }
 
     // Additional Tests for mul
