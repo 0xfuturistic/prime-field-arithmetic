@@ -164,24 +164,6 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
-    /*                      Tests for division                    */
-    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
-    function test_Div_ByNonZero(uint256 a, uint256 b) public {
-        vm.assume(b % PRIME != 0);
-        assertEq(a.div(b), a.mul(b.inv()));
-    }
-
-    function test_Div_BySelf(uint256 a) public {
-        vm.assume(a % PRIME != 0);
-        assertEq(a.div(a), 1);
-    }
-
-    function testFail_Div_ByZero(uint256 a) public {
-        vm.expectRevert("division by zero");
-        a.div(0);
-    }
-
-    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                   Tests for exponentiation                 */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
     function test_Exp_ZeroPower(uint256 a) public {
@@ -220,5 +202,23 @@ contract PrimeFieldArithmeticTest is Test {
 
     function test_Inv_WithPrime(uint256 a) public {
         // Test with specific values
+    }
+
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                      Tests for division                    */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
+    function test_Div_ByNonZero(uint256 a, uint256 b) public {
+        vm.assume(b % PRIME != 0);
+        assertEq(a.div(b), a.mul(b.inv()));
+    }
+
+    function test_Div_BySelf(uint256 a) public {
+        vm.assume(a % PRIME != 0);
+        assertEq(a.div(a), 1);
+    }
+
+    function testFail_Div_ByZero(uint256 a) public {
+        vm.expectRevert("division by zero");
+        a.div(0);
     }
 }
