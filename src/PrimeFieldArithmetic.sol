@@ -21,7 +21,7 @@ library PrimeFieldArithmetic {
     /// @param b The number to subtract
     /// @return The result of subtracting b from a in the prime field
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        return addmod(a, PRIME - b, PRIME);
+        return addmod(a, PRIME - (b % PRIME), PRIME);
     }
 
     /// @notice Multiplies two numbers in the prime field
