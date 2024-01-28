@@ -10,14 +10,8 @@ contract PrimeFieldArithmeticTest is Test {
     uint256 PRIME = PrimeFieldArithmetic.PRIME;
 
     function testFuzz_Add(uint256 a, uint256 b) public {
-        // we must avoid overflow when adding a and b
-        vm.assume(type(uint256).max - a >= b);
-
-        uint256 sum = a + b;
-        while (sum >= PRIME) {
-            sum -= PRIME;
-        }
-        assertEq(a.add(b), sum);
+        vm.assume(type(uint256).max - a >= b); // prevent overflow when adding a and b
+        assertEq(a.add(b), (a + b) % PRIME);
     }
 
     // Additional Tests for add
