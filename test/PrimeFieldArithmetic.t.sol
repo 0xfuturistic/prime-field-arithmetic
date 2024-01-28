@@ -9,12 +9,7 @@ contract PrimeFieldArithmeticTest is Test {
 
     uint256 PRIME = PrimeFieldArithmetic.PRIME;
 
-    modifier assumeInField(uint256 value) {
-        vm.assume(value < PRIME);
-        _;
-    }
-
-    function testFuzz_Add(uint256 a, uint256 b) public assumeInField(a) assumeInField(b) {
+    function testFuzz_Add(uint256 a, uint256 b) public {
         // we must avoid overflow when adding a and b
         vm.assume(type(uint256).max - a >= b);
 
@@ -32,11 +27,11 @@ contract PrimeFieldArithmeticTest is Test {
         assertEq(a.add(b), 0);
     }
 
-    function test_Add_Commutativity(uint256 a, uint256 b) public assumeInField(a) assumeInField(b) {
+    function test_Add_Commutativity(uint256 a, uint256 b) public {
         assertEq(a.add(b), b.add(a));
     }
 
-    function test_Add_WithZero(uint256 a) public assumeInField(a) {
+    function test_Add_WithZero(uint256 a) public {
         assertEq(a.add(0), a);
     }
 
@@ -51,7 +46,7 @@ contract PrimeFieldArithmeticTest is Test {
         assertEq(a.sub(b), PRIME - 1);
     }
 
-    function test_Sub_ZeroResult(uint256 a) public assumeInField(a) {
+    function test_Sub_ZeroResult(uint256 a) public {
         assertEq(a.sub(a), 0);
     }
 
@@ -60,49 +55,49 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     // Additional Tests for mul
-    function test_Mul_Overflow(uint256 a, uint256 b) public assumeInField(a) assumeInField(b) {
+    function test_Mul_Overflow(uint256 a, uint256 b) public {
         uint256 result = a.mul(b);
         // Specific checks based on known overflow scenarios or using modulo
     }
 
-    function test_Mul_Commutativity(uint256 a, uint256 b) public assumeInField(a) assumeInField(b) {
+    function test_Mul_Commutativity(uint256 a, uint256 b) public {
         assertEq(a.mul(b), b.mul(a));
     }
 
-    function test_Mul_MultiplicativeIdentity(uint256 a) public assumeInField(a) {
+    function test_Mul_MultiplicativeIdentity(uint256 a) public {
         assertEq(a.mul(1), a);
     }
 
-    function test_Mul_ZeroCase(uint256 a) public assumeInField(a) {
+    function test_Mul_ZeroCase(uint256 a) public {
         assertEq(a.mul(0), 0);
     }
 
     // Additional Tests for div
-    function test_Div_ByNonZero(uint256 a, uint256 b) public assumeInField(a) assumeInField(b) {
+    function test_Div_ByNonZero(uint256 a, uint256 b) public {
         vm.assume(b != 0);
         assertEq(a.div(b), a.mul(b.inv()));
     }
 
-    function test_Div_BySelf(uint256 a) public assumeInField(a) {
+    function test_Div_BySelf(uint256 a) public {
         vm.assume(a != 0);
         assertEq(a.div(a), 1);
     }
 
-    function testFail_Div_ByZero(uint256 a) public assumeInField(a) {
+    function testFail_Div_ByZero(uint256 a) public {
         vm.expectRevert("division by zero");
         a.div(0);
     }
 
     // Additional Tests for exp
-    function test_Exp_ZeroPower(uint256 a) public assumeInField(a) {
+    function test_Exp_ZeroPower(uint256 a) public {
         assertEq(a.exp(0), 1);
     }
 
-    function test_Exp_PowerOfOne(uint256 a) public assumeInField(a) {
+    function test_Exp_PowerOfOne(uint256 a) public {
         assertEq(a.exp(1), a % PRIME);
     }
 
-    function test_Exp_WithPrime(uint256 a) public assumeInField(a) {
+    function test_Exp_WithPrime(uint256 a) public {
         // Test with specific values
     }
 
@@ -111,7 +106,7 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     // Additional Tests for inv
-    function test_Inv_NonZero(uint256 a) public assumeInField(a) {
+    function test_Inv_NonZero(uint256 a) public {
         vm.assume(a != 0);
         uint256 invA = a.inv();
         // Check the multiplication of a number and its inverse
@@ -126,7 +121,7 @@ contract PrimeFieldArithmeticTest is Test {
         uint256(0).inv(); // Expected to revert
     }
 
-    function test_Inv_WithPrime(uint256 a) public assumeInField(a) {
+    function test_Inv_WithPrime(uint256 a) public {
         // Test with specific values
     }
 }
