@@ -15,7 +15,7 @@ contract PrimeFieldArithmeticTest is Test {
     function test_add_basic() public {
         uint256 a = 1;
         uint256 b = 2;
-        uint256 c = a + b;
+        uint256 c = (a + b) % PRIME; // for consistency we use mod PRIME
         assertEq(a.add(b), c);
     }
 
@@ -40,6 +40,13 @@ contract PrimeFieldArithmeticTest is Test {
     function test_add_wraps_B() public {
         uint256 a = 1;
         uint256 b = PRIME - 1;
+        uint256 c = 0;
+        assertEq(a.add(b), c);
+    }
+
+    function test_add_zero() public {
+        uint256 a = 0;
+        uint256 b = 0;
         uint256 c = 0;
         assertEq(a.add(b), c);
     }
