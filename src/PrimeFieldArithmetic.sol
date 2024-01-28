@@ -60,11 +60,11 @@ library PrimeFieldArithmetic {
         return exp(a, PRIME - 2);
     }
 
-    /// @notice Divides one number by another in the prime field
-    /// @param a The number to divide
-    /// @param b The number to divide by
+    /// @notice Divides one number, the numerator, by another, the divisor, in the prime field.
+    /// @param numerator The number to divide
+    /// @param divisor The number to divide by
     /// @return The result of dividing a by b in the prime field
-    function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        return mul(a, inv(b));
+    function div(uint256 numerator, uint256 divisor) internal pure returns (uint256) {
+        return mul(numerator, inv(divisor));
     }
 }
