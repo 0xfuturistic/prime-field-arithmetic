@@ -143,7 +143,9 @@ contract PrimeFieldArithmeticTest is Test {
         assertEq(a.sub(b), c);
     }
 
-    // Additional Tests for mul
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                    Tests for multiplication                */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
     function test_Mul_Overflow(uint256 a, uint256 b) public {
         uint256 result = a.mul(b);
         // Specific checks based on known overflow scenarios or using modulo
@@ -161,7 +163,9 @@ contract PrimeFieldArithmeticTest is Test {
         assertEq(a.mul(0), 0);
     }
 
-    // Additional Tests for div
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                      Tests for division                    */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
     function test_Div_ByNonZero(uint256 a, uint256 b) public {
         vm.assume(b % PRIME != 0);
         assertEq(a.div(b), a.mul(b.inv()));
@@ -177,7 +181,9 @@ contract PrimeFieldArithmeticTest is Test {
         a.div(0);
     }
 
-    // Additional Tests for exp
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                   Tests for exponentiation                 */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
     function test_Exp_ZeroPower(uint256 a) public {
         assertEq(a.exp(0), 1);
     }
@@ -194,7 +200,9 @@ contract PrimeFieldArithmeticTest is Test {
         // Test with known cases
     }
 
-    // Additional Tests for inv
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                      Tests for inverse                     */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
     function test_Inv_NonZero(uint256 a) public {
         vm.assume(a % PRIME != 0);
         uint256 invA = a.inv();
