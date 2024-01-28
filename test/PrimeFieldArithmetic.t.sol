@@ -65,7 +65,7 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function test_Mul_MultiplicativeIdentity(uint256 a) public {
-        assertEq(a.mul(1), a);
+        assertEq(a.mul(1), a % PRIME);
     }
 
     function test_Mul_ZeroCase(uint256 a) public {
@@ -74,12 +74,12 @@ contract PrimeFieldArithmeticTest is Test {
 
     // Additional Tests for div
     function test_Div_ByNonZero(uint256 a, uint256 b) public {
-        vm.assume(b != 0);
+        vm.assume(b % PRIME != 0);
         assertEq(a.div(b), a.mul(b.inv()));
     }
 
     function test_Div_BySelf(uint256 a) public {
-        vm.assume(a != 0);
+        vm.assume(a % PRIME != 0);
         assertEq(a.div(a), 1);
     }
 
@@ -107,7 +107,7 @@ contract PrimeFieldArithmeticTest is Test {
 
     // Additional Tests for inv
     function test_Inv_NonZero(uint256 a) public {
-        vm.assume(a != 0);
+        vm.assume(a % PRIME != 0);
         uint256 invA = a.inv();
         // Check the multiplication of a number and its inverse
     }
