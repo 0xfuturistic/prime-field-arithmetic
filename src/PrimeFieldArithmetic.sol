@@ -8,16 +8,11 @@ library PrimeFieldArithmetic {
     /// @notice The prime number from the secp256k1 curve is used.
     uint256 constant PRIME = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F;
 
-    modifier mustBeInField(uint256 value) {
-        require(value < PRIME, "value must be in finite field");
-        _;
-    }
-
     /// @notice Adds two numbers in the prime field
     /// @param a The first number to add
     /// @param b The second number to add
     /// @return The sum of a and b in the prime field
-    function add(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+    function add(uint256 a, uint256 b) internal pure returns (uint256) {
         return addmod(a, b, PRIME);
     }
 
@@ -25,7 +20,7 @@ library PrimeFieldArithmetic {
     /// @param a The number to subtract from
     /// @param b The number to subtract
     /// @return The result of subtracting b from a in the prime field
-    function sub(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         return addmod(a, PRIME - b, PRIME);
     }
 
@@ -33,7 +28,7 @@ library PrimeFieldArithmetic {
     /// @param a The first number to multiply
     /// @param b The second number to multiply
     /// @return The product of a and b in the prime field
-    function mul(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
         return mulmod(a, b, PRIME);
     }
 
@@ -41,7 +36,7 @@ library PrimeFieldArithmetic {
     ///         This is based on Fermat's Little Theorem, which states that  a^(p-1) ≡ 1 mod p for any non-zero a in a field of size p.
     /// @param a The number to calculate the inverse of
     /// @return The modular multiplicative inverse of a in the prime field
-    function inv(uint256 a) internal pure mustBeInField(a) returns (uint256) {
+    function inv(uint256 a) internal pure returns (uint256) {
         require(a != 0, "division by zero");
         return exp(a, PRIME - 2);
     }
@@ -50,7 +45,7 @@ library PrimeFieldArithmetic {
     /// @param a The number to divide
     /// @param b The number to divide by
     /// @return The result of dividing a by b in the prime field
-    function div(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+    function div(uint256 a, uint256 b) internal pure returns (uint256) {
         return mul(a, inv(b));
     }
 
@@ -58,7 +53,7 @@ library PrimeFieldArithmetic {
     /// @param a The base number
     /// @param b The exponent
     /// @return The result of raising a to the power of b in the prime field
-    function exp(uint256 a, uint256 b) internal pure mustBeInField(a) mustBeInField(b) returns (uint256) {
+    function exp(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 result = 1;
         a %= PRIME;
         for (uint256 i = 1; i <= b; i *= 2) {
