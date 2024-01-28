@@ -9,29 +9,72 @@ contract PrimeFieldArithmeticTest is Test {
 
     uint256 constant PRIME = PrimeFieldArithmetic.PRIME;
 
-    function testFuzz_Add(uint256 a, uint256 b) public {
-        vm.assume(type(uint256).max - a >= b); // prevent overflow when adding a and b
-        assertEq(a.add(b), (a + b) % PRIME);
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                      Tests for addition                    */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
+    function test_add_basic() public {
+        uint256 a = 1;
+        uint256 b = 2;
+        uint256 c = a + b;
+        assertEq(a.add(b), c);
     }
 
-    // Additional Tests for add
-    function test_Add_Overflow() public {
-        uint256 a = PRIME - 1;
-        uint256 b = 1;
-        assertEq(a.add(b), 0);
-    }
-
-    function test_Add_Commutativity(uint256 a, uint256 b) public {
+    function test_add_commutes(uint256 a, uint256 b) public {
         assertEq(a.add(b), b.add(a));
     }
 
-    function test_Add_WithZero(uint256 a) public {
-        assertEq(a.add(0), a % PRIME);
+    function testFuzz_add(uint256 a, uint256 b) public {
+        a %= PRIME;
+        b %= PRIME;
+        uint256 c = (a + b) % PRIME;
+        assertEq(a.add(b), c);
     }
 
-    function test_Add_EdgeCases() public {
-        assertEq(uint256(0).add(PRIME - 1), PRIME - 1);
+    function test_add_wraps_A() public {
+        uint256 a = PRIME - 1;
+        uint256 b = 1;
+        uint256 c = 0;
+        assertEq(a.add(b), c);
     }
+
+    function test_add_wraps_B() public {
+        uint256 a = 1;
+        uint256 b = PRIME - 1;
+        uint256 c = 0;
+        assertEq(a.add(b), c);
+    }
+
+    function test_add_zero_A(uint256 b) public {
+        b %= PRIME;
+        uint256 a = 0;
+        uint256 c = b;
+        assertEq(a.add(b), c);
+    }
+
+    function test_add_zero_B(uint256 a) public {
+        a %= PRIME;
+        uint256 b = 0;
+        uint256 c = a;
+        assertEq(a.add(b), c);
+    }
+
+    function test_add_edge_A() public {
+        uint256 a = PRIME - 1;
+        uint256 b = 0;
+        uint256 c = a;
+        assertEq(a.add(b), c);
+    }
+
+    function test_add_edge_B() public {
+        uint256 a = 0;
+        uint256 b = PRIME - 1;
+        uint256 c = b;
+        assertEq(a.add(b), c);
+    }
+
+    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+    /*                    Tests for subtraction                   */
+    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
     // Additional Tests for sub
     function test_Sub_Underflow() public {
