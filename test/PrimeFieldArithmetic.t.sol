@@ -32,7 +32,7 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function test_Add_WithZero(uint256 a) public {
-        assertEq(a.add(0), a);
+        assertEq(a.add(0), a % PRIME);
     }
 
     function test_Add_EdgeCases() public {
