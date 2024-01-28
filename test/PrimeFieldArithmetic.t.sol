@@ -7,7 +7,7 @@ import {PrimeFieldArithmetic} from "../src/PrimeFieldArithmetic.sol";
 contract PrimeFieldArithmeticTest is Test {
     using PrimeFieldArithmetic for uint256;
 
-    uint256 constant PRIME = PrimeFieldArithmetic.PRIME;
+    uint256 PRIME = PrimeFieldArithmetic.PRIME;
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                      Tests for addition                    */
