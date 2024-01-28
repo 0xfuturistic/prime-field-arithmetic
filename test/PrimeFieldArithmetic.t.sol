@@ -146,21 +146,81 @@ contract PrimeFieldArithmeticTest is Test {
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                    Tests for multiplication                */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
-    function test_Mul_Overflow(uint256 a, uint256 b) public {
-        uint256 result = a.mul(b);
-        // Specific checks based on known overflow scenarios or using modulo
+    function test_mul_basic() public {
+        uint256 a = 3;
+        uint256 b = 2;
+        uint256 c = (3 * 2) % PRIME; // for consistency we use mod PRIME
+        assertEq(a.mul(b), c);
     }
 
-    function test_Mul_Commutativity(uint256 a, uint256 b) public {
+    function test_mul_commutes(uint256 a, uint256 b) public {
         assertEq(a.mul(b), b.mul(a));
     }
 
-    function test_Mul_MultiplicativeIdentity(uint256 a) public {
-        assertEq(a.mul(1), a % PRIME);
+    function test_mul_identity() public {
+        uint256 a = 1;
+        uint256 b = 1;
+        uint256 c = 1;
+        assertEq(a.mul(b), c);
     }
 
-    function test_Mul_ZeroCase(uint256 a) public {
-        assertEq(a.mul(0), 0);
+    function testFuzz_mul(uint256 a, uint256 b) public {
+        a %= PRIME;
+        b %= PRIME;
+        uint256 c;
+        unchecked {
+            c = (a * b) % PRIME;
+        }
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_wraps_A() public {
+        uint256 a = PRIME;
+        uint256 b = 1;
+        uint256 c = 0;
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_wraps_B() public {
+        uint256 a = 1;
+        uint256 b = PRIME;
+        uint256 c = 0;
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_zero() public {
+        uint256 a = 0;
+        uint256 b = 0;
+        uint256 c = 0;
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_zero_A(uint256 b) public {
+        uint256 a = 0;
+        b %= PRIME;
+        uint256 c = 0;
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_zero_B(uint256 a) public {
+        a %= PRIME;
+        uint256 b = 0;
+        uint256 c = 0;
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_edge_A() public {
+        uint256 a = PRIME - 1;
+        uint256 b = 1;
+        uint256 c = a;
+        assertEq(a.mul(b), c);
+    }
+
+    function test_mul_edge_B() public {
+        uint256 a = 1;
+        uint256 b = PRIME - 1;
+        uint256 c = b;
+        assertEq(a.mul(b), c);
     }
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
