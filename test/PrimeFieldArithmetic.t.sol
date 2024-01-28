@@ -7,7 +7,7 @@ import {PrimeFieldArithmetic} from "../src/PrimeFieldArithmetic.sol";
 contract PrimeFieldArithmeticTest is Test {
     using PrimeFieldArithmetic for uint256;
 
-    uint256 PRIME = PrimeFieldArithmetic.PRIME;
+    uint256 constant PRIME = PrimeFieldArithmetic.PRIME;
 
     function testFuzz_Add(uint256 a, uint256 b) public {
         vm.assume(type(uint256).max - a >= b); // prevent overflow when adding a and b
