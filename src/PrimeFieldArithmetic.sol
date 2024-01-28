@@ -32,6 +32,22 @@ library PrimeFieldArithmetic {
         return mulmod(a, b, PRIME);
     }
 
+    /// @notice Calculates the modular exponentiation of a number a raised to the power of b in the prime field using the square-and-multiply algorithm.
+    /// @param a The base number
+    /// @param b The exponent
+    /// @return The result of raising a to the power of b in the prime field
+    function exp(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 result = 1;
+        a %= PRIME;
+        for (uint256 i = 1; i <= b; i *= 2) {
+            if (b & i != 0) {
+                result = mulmod(result, a, PRIME);
+            }
+            a = mulmod(a, a, PRIME);
+        }
+        return result;
+    }
+
     /// @notice Calculates the modular multiplicative inverse of a number a modulo p using the formula  a^(p-2) mod p.
     ///         This is based on Fermat's Little Theorem, which states that  a^(p-1) ≡ 1 mod p for any non-zero a in a field of size p.
     /// @param a The number to calculate the inverse of
@@ -47,21 +63,5 @@ library PrimeFieldArithmetic {
     /// @return The result of dividing a by b in the prime field
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
         return mul(a, inv(b));
-    }
-
-    /// @notice Calculates the modular exponentiation of a number a raised to the power of b in the prime field using the square-and-multiply algorithm.
-    /// @param a The base number
-    /// @param b The exponent
-    /// @return The result of raising a to the power of b in the prime field
-    function exp(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 result = 1;
-        a %= PRIME;
-        for (uint256 i = 1; i <= b; i *= 2) {
-            if (b & i != 0) {
-                result = mulmod(result, a, PRIME);
-            }
-            a = mulmod(a, a, PRIME);
-        }
-        return result;
     }
 }
