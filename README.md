@@ -33,7 +33,7 @@ Then add the following line to your contract:
 using PrimeFieldArithmetic for uint256;
 ```
 
-## Contribution
+## Contributing
 Contributions are welcome. Please adhere to standard coding practices and provide tests for new features.
 
 ## License
