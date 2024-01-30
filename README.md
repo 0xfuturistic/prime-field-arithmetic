@@ -1,6 +1,6 @@
 <img src="secp256k1.png" alt="secp256k1 curve" width="400"/>
 
-A Solidity library for performing arithmetic operations within a prime field, specifically tailored for the [secp256k1](https://en.bitcoin.it/wiki/Secp256k1) curve.
+A Solidity library for performing arithmetic operations within a prime field, tailored to the [secp256k1](https://en.bitcoin.it/wiki/Secp256k1) curve.
 
 ## Installation
 
