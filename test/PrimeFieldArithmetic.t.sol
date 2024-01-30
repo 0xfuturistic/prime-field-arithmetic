@@ -279,23 +279,22 @@ contract PrimeFieldArithmeticTest is Test {
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                      Tests for inverse                     */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
-    function test_Inv_NonZero(uint256 a) public {
-        vm.assume(a % PRIME != 0);
-        uint256 invA = a.inv();
-        // Check the multiplication of a number and its inverse
+    function test_inv_basic() public {
+        uint256 a = 1;
+        uint256 result = 1;
+        assertEq(a.inv(), result);
     }
 
-    function test_Inv_One() public {
-        assertEq(uint256(1).inv(), 1);
+    function testFuzz_inv(uint256 a) public {
+        a %= PRIME;
+        vm.assume(a != 0);
+        assertEq(mulmod(a.inv(), a, PRIME), 1);
     }
 
-    function tesFail_Inv_ZeroInternal() public {
+    function tesFail_inv_zero() public {
+        uint256 a = 0;
         vm.expectRevert();
-        uint256(0).inv(); // Expected to revert
-    }
-
-    function test_Inv_WithPrime(uint256 a) public {
-        // Test with specific values
+        a.inv();
     }
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
