@@ -167,10 +167,7 @@ contract PrimeFieldArithmeticTest is Test {
     function testFuzz_mul(uint256 a, uint256 b) public {
         a %= PRIME;
         b %= PRIME;
-        uint256 c;
-        unchecked {
-            c = (a * b) % PRIME;
-        }
+        uint256 c = mulmod(a, b, PRIME);
         assertEq(a.mul(b), c);
     }
 
