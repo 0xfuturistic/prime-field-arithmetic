@@ -300,18 +300,37 @@ contract PrimeFieldArithmeticTest is Test {
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                      Tests for division                    */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
-    function test_Div_ByNonZero(uint256 a, uint256 b) public {
-        vm.assume(b % PRIME != 0);
-        assertEq(a.div(b), a.mul(b.inv()));
+    function test_div_basic() public {
+        uint256 a = 1;
+        uint256 b = 1;
+        uint256 result = 1;
+        assertEq(a.div(b), result);
     }
 
-    function test_Div_BySelf(uint256 a) public {
-        vm.assume(a % PRIME != 0);
+    function test_div_zero_numerator(uint256 denominator) public {
+        uint256 a = 0;
+        denominator %= PRIME;
+        vm.assume(denominator != 0);
+        uint256 result = 0;
+        assertEq(a.div(denominator), result);
+    }
+
+    function testFail_div_zero_denominator(uint256 a) public {
+        vm.expectRevert("division by zero");
+        a.div(0);
+    }
+
+    function test_div_self(uint256 a) public {
+        a %= PRIME;
+        vm.assume(a != 0);
         assertEq(a.div(a), 1);
     }
 
-    function testFail_Div_ByZero(uint256 a) public {
-        vm.expectRevert("division by zero");
-        a.div(0);
+    function testFuzz_div(uint256 a, uint256 b) public {
+        a %= PRIME;
+        b %= PRIME;
+        vm.assume(b != 0);
+        uint256 result = mulmod(a, b.inv(), PRIME);
+        assertEq(a.div(b), result);
     }
 }
