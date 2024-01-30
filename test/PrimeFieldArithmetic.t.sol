@@ -226,20 +226,54 @@ contract PrimeFieldArithmeticTest is Test {
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                   Tests for exponentiation                 */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
-    function test_Exp_ZeroPower(uint256 a) public {
-        assertEq(a.exp(0), 1);
+    function test_exp_basic() public {
+        uint256 a = 1;
+        uint256 b = 1;
+        uint256 c = 1;
+        assertEq(a.exp(b), c);
     }
 
-    function test_Exp_PowerOfOne(uint256 a) public {
-        assertEq(a.exp(1), a % PRIME);
+    function test_exp_power_zero(uint256 base) public {
+        base %= PRIME;
+        uint256 exponent = 0;
+        uint256 result = 1;
+        assertEq(base.exp(exponent), result);
     }
 
-    function test_Exp_WithPrime(uint256 a) public {
-        // Test with specific values
+    function test_exp_power_one(uint256 base) public {
+        base %= PRIME;
+        uint256 exponent = 1;
+        uint256 result = base;
+        assertEq(base.exp(exponent), result);
     }
 
-    function test_Exp_SpecificCases() public {
-        // Test with known cases
+    function test_exp_base_zero(uint256 exponent) public {
+        uint256 base = 0;
+        exponent %= PRIME;
+        uint256 result = exponent == 0 ? 1 : 0;
+        assertEq(base.exp(exponent), result);
+    }
+
+    function test_exp_base_one(uint256 exponent) public {
+        uint256 base = 1;
+        exponent %= PRIME;
+        uint256 result = 1;
+        assertEq(base.exp(exponent), result);
+    }
+
+    function testFuzz_exp(uint256 base, uint256 exponent) public {
+        base %= PRIME;
+        exponent %= PRIME;
+        uint256 result = base ** exponent;
+        assertEq(base.exp(exponent), result);
+    }
+
+    function test_exp_wrap() public {
+        // TODO
+    }
+
+    function test_exp_edge() public {
+        // TODO
     }
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
