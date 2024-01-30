@@ -26,7 +26,7 @@ contract PrimeFieldArithmeticTest is Test {
     function testFuzz_add(uint256 a, uint256 b) public {
         a %= PRIME;
         b %= PRIME;
-        uint256 c = (a + b) % PRIME;
+        uint256 c = addmod(a, b, PRIME);
         assertEq(a.add(b), c);
     }
 
