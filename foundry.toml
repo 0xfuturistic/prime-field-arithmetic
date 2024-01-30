@@ -1,9 +1,22 @@
+# Foundry Configuration File
+# Default definitions: https://github.com/gakonst/foundry/blob/b7917fa8491aedda4dd6db53fbb206ea233cd531/config/src/lib.rs#L782
+# See more config options at: https://github.com/gakonst/foundry/tree/master/config
+
+# The Default Profile
 [profile.default]
 src = "src"
 out = "out"
 libs = ["lib"]
-
+solc_version = "0.8.15"
+optimizer = true
+optimizer_runs = 1_000
 remappings = [
     "ds-test/=lib/forge-std/lib/ds-test/src/",
     "forge-std/=lib/forge-std/src/",
 ]
+
+[fmt]
+line_length = 100 # While we allow up to 120, we lint at 100 for readability.
+
+[profile.default.fuzz]
+runs = 256
