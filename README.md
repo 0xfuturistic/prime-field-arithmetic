@@ -1,66 +1,40 @@
-## Foundry
+<img src="secp256k1.png" alt="secp256k1 curve" width="400"/>
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A Solidity library for performing arithmetic operations within a prime field, specifically tailored for the [secp256k1](https://en.bitcoin.it/wiki/Secp256k1) curve.
 
-Foundry consists of:
+## Installation
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+To install with [**Foundry**](https://github.com/gakonst/foundry):
 
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```sh
+forge install 0xfuturistic/prime-field-arithmetic
 ```
 
-### Test
+## Features
+- **Arithmetic in Prime Field**: Perform addition, subtraction, multiplication, and exponentiation within the constraints of a prime field.
+- **Optimized for secp256k1 Curve**: Utilizes the widely recognized secp256k1 curve prime, ensuring compatibility with a broad range of cryptographic applications.
+- **Solidity Optimized**: Crafted specifically for Solidity, providing efficient gas usage and performance in smart contract development.
 
-```shell
-$ forge test
+## Use Cases
+- **Cryptographic Operations**: Ideal for smart contracts requiring cryptographic computations, such as digital signatures, zero-knowledge proofs, and other cryptographic protocols.
+- **Smart Contract Security:** Prevent underflows and overflows from ever happening by leveraging operations over a finite field using this library.
+- **Interoperability with higher-level math**: Crucial for applications leveraging a high level of mathematical rigor and precision, such as in decentralized finance (DeFi) and cryptography.
+
+## Getting Started
+After installing, to integrate `PrimeFieldArithmetic` into your Solidity project:
+
+```
+import "prime-field-arithmetic/src/PrimeFieldArithmetic.sol";
 ```
 
-### Format
+Then add the following line to your contract:
 
-```shell
-$ forge fmt
+```
+using PrimeFieldArithmetic for uint256;
 ```
 
-### Gas Snapshots
+## Contribution
+Contributions are welcome. Please adhere to standard coding practices and provide tests for new features.
 
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## License
+Distributed under the MIT License.
