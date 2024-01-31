@@ -56,7 +56,7 @@ library PrimeFieldArithmetic {
     /// @param a The number to calculate the inverse of
     /// @return The modular multiplicative inverse of a in the prime field
     function inv(uint256 a) internal pure returns (uint256) {
-        require(a != 0, "cannot divide by zero");
+        require(a % PRIME != 0, "cannot divide by zero");
         return exp(a, PRIME - 2);
     }
 
