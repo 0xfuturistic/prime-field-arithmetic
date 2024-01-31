@@ -220,13 +220,13 @@ contract PrimeFieldArithmeticTest is Test {
         assertEq(a.exp(b), result);
     }
 
-    function test_exp_power_zero(uint256 base) public {
+    function test_exp_exponent_zero(uint256 base) public {
         uint256 exponent = 0;
         uint256 result = 1;
         assertEq(base.exp(exponent), result);
     }
 
-    function test_exp_power_one(uint256 base) public {
+    function test_exp_exponent_one(uint256 base) public {
         uint256 exponent = 1;
         uint256 result = base % PRIME;
         assertEq(base.exp(exponent), result);
@@ -285,32 +285,32 @@ contract PrimeFieldArithmeticTest is Test {
     /*                      Tests for division                    */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
     function test_div_basic() public {
-        uint256 a = 1;
-        uint256 b = 1;
+        uint256 dividend = 1;
+        uint256 divisor = 1;
         uint256 result = 1;
-        assertEq(a.div(b), result);
+        assertEq(dividend.div(divisor), result);
     }
 
-    function test_div_zero_numerator(uint256 denominator) public {
-        uint256 a = 0;
-        vm.assume(denominator % PRIME != 0);
+    function test_div_dividend_zero(uint256 divisor) public {
+        uint256 dividend = 0;
+        vm.assume(divisor % PRIME != 0);
         uint256 result = 0;
-        assertEq(a.div(denominator), result);
+        assertEq(dividend.div(divisor), result);
     }
 
-    function testFail_div_zero_denominator(uint256 a) public {
+    function testFail_div_divisor_zero(uint256 dividend) public {
         vm.expectRevert("division by zero");
-        a.div(0);
+        dividend.div(0);
     }
 
-    function test_div_self(uint256 a) public {
-        vm.assume(a % PRIME != 0);
-        assertEq(a.div(a), 1);
+    function test_div_dividend_self(uint256 dividend) public {
+        vm.assume(dividend % PRIME != 0);
+        assertEq(dividend.div(dividend), 1);
     }
 
-    function testFuzz_div(uint256 a, uint256 b) public {
-        vm.assume(b % PRIME != 0);
-        uint256 result = mulmod(a, b.inv(), PRIME);
-        assertEq(a.div(b), result);
+    function testFuzz_div(uint256 dividend, uint256 divisor) public {
+        vm.assume(divisor % PRIME != 0);
+        uint256 result = mulmod(dividend, divisor.inv(), PRIME);
+        assertEq(dividend.div(divisor), result);
     }
 }
