@@ -2,7 +2,7 @@
 pragma solidity ^0.8.15;
 
 /// @title PrimeFieldArithmetic
-/// @notice Library for performing arithmetic operations in a prime field
+/// @notice Library for performing arithmetic operations in a prime field (secp256k1)
 /// @author Diego (0xfuturistic@pm.me)
 library PrimeFieldArithmetic {
     /// @notice The prime number from the secp256k1 curve is used.
@@ -36,9 +36,9 @@ library PrimeFieldArithmetic {
     ///         Utilizes the square-and-multiply algorithm, optimized for Solidity.
     /// @param base The base number
     /// @param exponent The exponent
-    /// @return result The result of base^exponent mod PRIME.
-    function exp(uint256 base, uint256 exponent) internal pure returns (uint256 result) {
-        result = 1; // Initialize result as 1, as any number to the power of 0 is 1.
+    /// @return The result of base^exponent mod PRIME.
+    function exp(uint256 base, uint256 exponent) internal pure returns (uint256) {
+        uint256 result = 1; // Initialize result as 1, as any number to the power of 0 is 1.
         base %= PRIME; // Ensures base is within field limits.
         // Iterate over each bit of the exponent, starting from the least significant bit.
         while (exponent != 0) {
@@ -49,6 +49,7 @@ library PrimeFieldArithmetic {
             base = mulmod(base, base, PRIME); // Square the base for the next bit, modulo PRIME.
             exponent >>= 1; // Right shift exponent by 1 bit (equivalent to floor division by 2).
         }
+        return result;
     }
 
     /// @notice Calculates the modular multiplicative inverse of a number a modulo p using the formula  a^(p-2) mod p.
@@ -60,11 +61,11 @@ library PrimeFieldArithmetic {
         return exp(a, PRIME - 2);
     }
 
-    /// @notice Divides one number, the numerator, by another, the divisor, in the prime field.
-    /// @param numerator The number to divide
+    /// @notice Divides one number, the dividend, by another, the divisor, in the prime field.
+    /// @param dividend The number to divide
     /// @param divisor The number to divide by
-    /// @return The result of dividing a by b in the prime field
-    function div(uint256 numerator, uint256 divisor) internal pure returns (uint256) {
-        return mul(numerator, inv(divisor));
+    /// @return The result of dividing the dividend by the divisor in the prime field
+    function div(uint256 dividend, uint256 divisor) internal pure returns (uint256) {
+        return mul(dividend, inv(divisor));
     }
 }
