@@ -24,8 +24,6 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function testFuzz_add(uint256 a, uint256 b) public {
-        a %= PRIME;
-        b %= PRIME;
         uint256 result = addmod(a, b, PRIME);
         assertEq(a.add(b), result);
     }
@@ -53,15 +51,13 @@ contract PrimeFieldArithmeticTest is Test {
 
     function test_add_zero_A(uint256 b) public {
         uint256 a = 0;
-        b %= PRIME;
-        uint256 result = b;
+        uint256 result = b % PRIME;
         assertEq(a.add(b), result);
     }
 
     function test_add_zero_B(uint256 a) public {
-        a %= PRIME;
         uint256 b = 0;
-        uint256 result = a;
+        uint256 result = a % PRIME;
         assertEq(a.add(b), result);
     }
 
@@ -85,7 +81,7 @@ contract PrimeFieldArithmeticTest is Test {
     function test_sub_basic() public {
         uint256 a = 3;
         uint256 b = 2;
-        uint256 result = (a - b) % PRIME; // for resultonsistency we use mod PRIME
+        uint256 result = (a - b) % PRIME; // for consistency we use mod PRIME
         assertEq(a.sub(b), result);
     }
 
@@ -117,15 +113,13 @@ contract PrimeFieldArithmeticTest is Test {
 
     function test_sub_zero_A(uint256 b) public {
         uint256 a = 0;
-        b %= PRIME;
-        uint256 result = (PRIME - b) % PRIME;
+        uint256 result = (PRIME - b % PRIME) % PRIME;
         assertEq(a.sub(b), result);
     }
 
     function test_sub_zero_B(uint256 a) public {
-        a %= PRIME;
         uint256 b = 0;
-        uint256 result = a;
+        uint256 result = a % PRIME;
         assertEq(a.sub(b), result);
     }
 
@@ -149,7 +143,7 @@ contract PrimeFieldArithmeticTest is Test {
     function test_mul_basic() public {
         uint256 a = 3;
         uint256 b = 2;
-        uint256 result = (3 * 2) % PRIME; // for resultonsistency we use mod PRIME
+        uint256 result = (a * b) % PRIME; // for consistency we use mod PRIME
         assertEq(a.mul(b), result);
     }
 
@@ -165,8 +159,6 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function testFuzz_mul(uint256 a, uint256 b) public {
-        a %= PRIME;
-        b %= PRIME;
         uint256 result = mulmod(a, b, PRIME);
         assertEq(a.mul(b), result);
     }
@@ -194,13 +186,11 @@ contract PrimeFieldArithmeticTest is Test {
 
     function test_mul_zero_A(uint256 b) public {
         uint256 a = 0;
-        b %= PRIME;
         uint256 result = 0;
         assertEq(a.mul(b), result);
     }
 
     function test_mul_zero_B(uint256 a) public {
-        a %= PRIME;
         uint256 b = 0;
         uint256 result = 0;
         assertEq(a.mul(b), result);
@@ -231,29 +221,25 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function test_exp_power_zero(uint256 base) public {
-        base %= PRIME;
         uint256 exponent = 0;
         uint256 result = 1;
         assertEq(base.exp(exponent), result);
     }
 
     function test_exp_power_one(uint256 base) public {
-        base %= PRIME;
         uint256 exponent = 1;
-        uint256 result = base;
+        uint256 result = base % PRIME;
         assertEq(base.exp(exponent), result);
     }
 
     function test_exp_base_zero(uint256 exponent) public {
         uint256 base = 0;
-        exponent %= PRIME;
-        uint256 result = exponent == 0 ? 1 : 0;
+        uint256 result = exponent % PRIME == 0 ? 1 : 0;
         assertEq(base.exp(exponent), result);
     }
 
     function test_exp_base_one(uint256 exponent) public {
         uint256 base = 1;
-        exponent %= PRIME;
         uint256 result = 1;
         assertEq(base.exp(exponent), result);
     }
