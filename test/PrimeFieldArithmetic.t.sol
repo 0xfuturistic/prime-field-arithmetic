@@ -280,8 +280,7 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function testFuzz_inv(uint256 a) public {
-        a %= PRIME;
-        vm.assume(a != 0);
+        vm.assume(a % PRIME != 0);
         assertEq(mulmod(a.inv(), a, PRIME), 1);
     }
 
@@ -308,8 +307,7 @@ contract PrimeFieldArithmeticTest is Test {
 
     function test_div_zero_numerator(uint256 denominator) public {
         uint256 a = 0;
-        denominator %= PRIME;
-        vm.assume(denominator != 0);
+        vm.assume(denominator % PRIME != 0);
         uint256 result = 0;
         assertEq(a.div(denominator), result);
     }
@@ -320,15 +318,12 @@ contract PrimeFieldArithmeticTest is Test {
     }
 
     function test_div_self(uint256 a) public {
-        a %= PRIME;
-        vm.assume(a != 0);
+        vm.assume(a % PRIME != 0);
         assertEq(a.div(a), 1);
     }
 
     function testFuzz_div(uint256 a, uint256 b) public {
-        a %= PRIME;
-        b %= PRIME;
-        vm.assume(b != 0);
+        vm.assume(b % PRIME != 0);
         uint256 result = mulmod(a, b.inv(), PRIME);
         assertEq(a.div(b), result);
     }
