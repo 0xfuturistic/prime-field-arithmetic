@@ -287,8 +287,13 @@ contract PrimeFieldArithmeticTest is Test {
 
     function tesFail_inv_zero() public {
         uint256 a = 0;
-        vm.expectRevert();
+        vm.expectRevert("cannot divide by zero");
         a.inv();
+    }
+
+    function tesFail_inv_prime() public {
+        vm.expectRevert("cannot divide by zero");
+        PRIME.inv();
     }
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
